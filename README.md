@@ -3,16 +3,8 @@
 В нем указать:
 
 * MY_PORT = your_port
-* SECRET_KEY = your_key
-
-Подключение к БД
-* DB_USER = your_user
-* DB_NAME = your_db_name
-* DB_PASSWORD = your_db_password
-* DIALECT = postgres //or other
-* HOST = your_host
 
 Подключение других сервисов
 * REGISTRATION_SERVICE = Link to registration service
 * BLOG_SERVICE = Link to blog service
-* MESSAGE_SERVICE = Link to message service3
+* MESSAGE_SERVICE = Link to message service
