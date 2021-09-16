@@ -1,0 +1,75 @@
+version: '3.1'
+networks:
+  app:
+
+services:
+  gateway:
+    build: ./
+    volumes:
+      - ./:/app
+    environment:
+#      DB_URL: db-gateway
+
+      MY_PORT: 5004
+      REGISTRATION_SERVICE: http://registration:5001
+      BLOG_SERVICE: http://blog:5002
+      MESSAGE_SERVICE: http://message:5003
+    restart: always
+    ports:
+      - 5004:5004
+#  db-gateway:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - 5005:5432
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  message:
+    build: ../message-service
+    command: npm start
+    environment:
+      DB_USER: nazar
+      DB_NAME: message_db
+      DB_PASSWORD: ignatenko123
+      DIALECT: postgres
+      HOST: db
+      MY_PORT: 5003
+      REGISTRATION_SERVICE: http://registration:5001
+      GET_USERNAME: /api/auth/getUserName
+    restart: always
+    ports:
+      - 5003:5003
+  blog:
+    build: ../blog-service
+    command: npm start
+    environment:
+      REGISTRATION_SERVICE: http://registration:5001
+      AUTHORIZATION: /api/auth/authorization
+      DB_USER: nazar
+      DB_NAME: blog_db
+      DB_PASSWORD: ignatenko123
+      DIALECT: postgres
+      HOST: db
+      MY_PORT: 5002
+    restart: always
+    ports:
+      - 5002:5002
+  registration:
+    build: ../registration-service
+    command: npm start
+    environment:
+      DB_USER: nazar
+      DB_NAME: users_auth
+      DB_PASSWORD: ignatenko123
+      DIALECT: postgres
+      HOST: db
+      MY_PORT: 5001
+    restart: always
+    ports:
+      - 5001:5001
