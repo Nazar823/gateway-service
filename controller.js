@@ -1,4 +1,5 @@
 const axios = require('axios')
+const {getServiceName} = require("./utills");
 const statusOK = {code: 200, description: 'OK'}
 const statusErr = {code: 400, description: 'Bad Request'}
 
@@ -25,19 +26,4 @@ module.exports.getRequests = async (req, res) => {
         }
     }
     return res.status(statusErr.code).json({message: 'Invalid service'})
-}
-function getServiceName(URL) {
-    switch (URL) {
-    case 'message':
-        return process.env.MESSAGE_SERVICE
-        break;
-    case 'auth':
-        return process.env.REGISTRATION_SERVICE
-        break;
-    case 'blog':
-        return process.env.BLOG_SERVICE
-        break;
-    default: return undefined
-}
-
 }
